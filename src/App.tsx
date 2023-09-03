@@ -2,24 +2,36 @@ import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { TodoList, TaskType } from "./TodoList";
+import { v1 } from "uuid";
+import { fail } from "assert";
 
-export type FilterValuesTypes = "all" | "completed" | "active"
-
+export type FilterValuesTypes = "all" | "completed" | "active";
 
 function App() {
   let [tasks, setTasks] = useState<Array<TaskType>>([
-    { id: 1, title: "css", isDone: true },
-    { id: 2, title: "js", isDone: true },
-    { id: 3, title: "react", isDone: false },
-    { id: 4, title: "react", isDone: false },
+    { id: v1(), title: "css", isDone: true },
+    { id: v1(), title: "js", isDone: true },
+    { id: v1(), title: "react", isDone: false },
+    { id: v1(), title: "react", isDone: false },
   ]); // деструктуризация массива
 
   let [filter, setFilter] = useState<FilterValuesTypes>("all");
 
-  function removeTask(id: number) {
+  function removeTask(id: string) {
     let filteredTasks = tasks.filter((t) => t.id !== id);
     setTasks(filteredTasks);
   }
+  function addTask(title: string) {
+    let newTask = {
+      id: v1(),
+      title: title,
+      isDone: false,
+    };
+
+    let newTasks = [newTask, ...tasks];
+    setTasks(newTasks);
+  }
+
   function changeFilter(value: FilterValuesTypes) {
     setFilter(value);
   }
@@ -43,18 +55,7 @@ function App() {
         tasks={tasksForTodoList}
         removeTask={removeTask}
         changeFilter={changeFilter}
-      />
-      <TodoList
-        title="What to learn"
-        tasks={tasksForTodoList}
-        removeTask={removeTask}
-        changeFilter={changeFilter}
-      />
-      <TodoList
-        title="What to learn"
-        tasks={tasksForTodoList}
-        removeTask={removeTask}
-        changeFilter={changeFilter}
+        addTask={addTask}
       />
     </div>
   );
