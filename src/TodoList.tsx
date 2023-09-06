@@ -1,5 +1,7 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { FilterValuesTypes } from "./App";
+import { title } from "process";
+import { errors } from "web3";
 
 export type TaskType = {
   id: string;
@@ -18,21 +20,28 @@ type PropsType = {
 
 export function TodoList(props: PropsType) {
   const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTaskTitle(e.currentTarget.value);
   };
 
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    setError(null)
     if (e.key === "Enter") {
       props.addTask(newTaskTitle);
-      setNewTaskTitle("");
-    }
+      setNewTaskTitle("")
+    } 
   };
 
   const addTask = () => {
-    props.addTask(newTaskTitle);
-    setNewTaskTitle("");
+    if (newTaskTitle.trim() !== "") {
+      props.addTask(newTaskTitle.trim());
+      setNewTaskTitle("");
+    } else {
+      setError("Title is required");
+    }
+    
   };
 
   const onAllChangeHandler = () => props.changeFilter("all");
@@ -47,11 +56,12 @@ export function TodoList(props: PropsType) {
         value={newTaskTitle}
         onChange={onNewTitleChangeHandler}
         onKeyDown={onKeyDownHandler}
+        className={error ? "error": ""}
       />
       <button onClick={addTask}>+</button>
+     {error && <div className="error-message">{error}</div>}
       <ul>
         {props.tasks.map((t, index) => {
-
           const onRemoveHandler = () => {
             props.removeTask(t.id);
           };
