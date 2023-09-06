@@ -10,12 +10,13 @@ export type TaskType = {
 };
 
 type PropsType = {
+  id: string;
   title: string;
   tasks: Array<TaskType>; // or TaskType[]
   removeTask: (id: string) => void;
   addTask: (title: string) => void;
   changeTaskStatus: (taskId: string, isDone: boolean) => void;
-  changeFilter: (value: FilterValuesTypes) => void;
+  changeFilter: (value: FilterValuesTypes, todolistId: string) => void;
   filter: FilterValuesTypes;
 };
 
@@ -28,11 +29,11 @@ export function TodoList(props: PropsType) {
   };
 
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null)
+    setError(null);
     if (e.key === "Enter") {
       props.addTask(newTaskTitle);
-      setNewTaskTitle("")
-    } 
+      setNewTaskTitle("");
+    }
   };
 
   const addTask = () => {
@@ -42,12 +43,11 @@ export function TodoList(props: PropsType) {
     } else {
       setError("Title is required");
     }
-    
   };
 
-  const onAllChangeHandler = () => props.changeFilter("all");
-  const onActiveChangeHandler = () => props.changeFilter("active");
-  const onComplitedChangeHandler = () => props.changeFilter("completed");
+  const onAllChangeHandler = () => props.changeFilter("all", props.id);
+  const onActiveChangeHandler = () => props.changeFilter("active", props.id);
+  const onComplitedChangeHandler = () => props.changeFilter("completed", props.id);
 
   return (
     <div>
