@@ -5,7 +5,7 @@ import { rootCertificates } from "tls";
 
 function App() {
   return (
-    <div>
+    <div className="App">
       <Saprana />
       <Saprana />
     </div>
@@ -17,10 +17,11 @@ function Saprana() {
   return (
     
     <div>
+      <button></button>
+      <h1>Saprana checklist</h1>
       <ul>
         <li>
           <input type="text" />
-          <span></span>
           <input type="text" />
           <input type="text" />
         </li>
