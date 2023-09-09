@@ -11,12 +11,12 @@ function App() {
     { id: 1, title: "js", isDone: true },
     { id: 2, title: "jsx", isDone: false },
     { id: 3, title: "css", isDone: true },
+    { id: 4, title: "css", isDone: true },
   ];
 
   let tasks2: Array<TasksType> = [
     { id: 1, title: "node.js", isDone: true },
     { id: 2, title: "redux", isDone: false },
-    { id: 3, title: "next.js", isDone: true },
   ];
 
   return (
