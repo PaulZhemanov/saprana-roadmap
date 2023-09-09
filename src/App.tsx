@@ -6,24 +6,41 @@ import { rootCertificates } from "tls";
 function App() {
   return (
     <div className="App">
-      <Saprana />
-      <Saprana />
+      <Saprana title="Frontend" />
+      <Saprana title="Backend" />
     </div>
   );
 }
 
-function Saprana() {
-  
+type PropsType = {
+  title: string;
+};
+
+function Saprana(props: PropsType) {
   return (
-    
     <div>
-      <button></button>
-      <h1>Saprana checklist</h1>
+      <h1>{props.title}</h1>
+      <input />
+      <button>Add</button>
       <ul>
         <li>
-          <input type="text" />
-          <input type="text" />
-          <input type="text" />
+          <input type="checkbox" />
+          <span>jsx</span>
+          <button>Remove</button>
+        </li>
+      </ul>{" "}
+      <ul>
+        <li>
+          <input type="checkbox" />
+          <span>tsx</span>
+          <button>Remove</button>
+        </li>
+      </ul>{" "}
+      <ul>
+        <li>
+          <input type="checkbox" />
+          <span>graphql</span>
+          <button>Remove</button>
         </li>
       </ul>
     </div>
