@@ -9,6 +9,7 @@ export type TasksType = {
 export type PropsType = {
   title: string;
   tasks: Array<TasksType>;
+  removeTask: (id: number) => void
 };
 
 function Saprana(props: PropsType) {
@@ -18,12 +19,11 @@ function Saprana(props: PropsType) {
       <input />
       <button>Add</button>
       <ul>
-        {props.tasks.map( t => 
-          <li><input type="checkbox" checked={t.isDone} /><span>{t.title}</span>
-            <button>Remove</button>
-          </li>
-        )}
-      </ul>{" "}
+        {props.tasks.map( (t) => (<li><input type="checkbox" checked={t.isDone} /><span>{t.title}</span>
+            <button onClick={ () => {props.removeTask(t.id)}}
+            >Remove</button></li>))
+        }
+      </ul>
     </div>
   );
 }
