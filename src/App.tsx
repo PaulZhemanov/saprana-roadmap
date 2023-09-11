@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { rootCertificates } from "tls";
 import Saprana from "./Saprana";
 import { TaskType } from "./Saprana";
 import { v1 } from "uuid";
@@ -25,8 +23,8 @@ function App() {
   }
 
   function addTask(title: string) {
-    let newTask = { id: v1(), title: title, isDone: false };
-    let newTasks = [newTask, ...tasks];
+    let task = { id: v1(), title: title, isDone: false };
+    let newTasks = [task, ...tasks];
     setTasks(newTasks);
   }
 

@@ -1,5 +1,4 @@
 import { ChangeEvent, useState, KeyboardEvent } from "react";
-import App from "./App";
 import { FilterValuesType } from "./App";
 
 export type TaskType = {
@@ -19,19 +18,25 @@ type PropsType = {
 
 export function Saprana(props: PropsType) {
   const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTaskTitle(e.currentTarget.value);
   };
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    setError(null)
     if (e.key === "Enter") {
       props.addTask(newTaskTitle);
       setNewTaskTitle("");
     }
   };
   const addTask = () => {
-    props.addTask(newTaskTitle);
-    setNewTaskTitle("");
+    if (newTaskTitle.trim() !== "") {
+      props.addTask(newTaskTitle);
+      setNewTaskTitle("");
+    } else {
+      setError("Field is required");
+    }
   };
   const onAllClickHandler = () => {
     props.changeFilter("all");
@@ -50,8 +55,11 @@ export function Saprana(props: PropsType) {
         value={newTaskTitle}
         onChange={onNewTitleChangeHandler}
         onKeyDown={onKeyPressHandler}
+        className={error ? "error" : ""}
       />
       <button onClick={addTask}>Add</button>
+     { error && <div className="error-message">{error}</div>}
+  
       <ul>
         {props.tasks.map((t) => {
           const removeTask = () => props.removeTask(t.id);
