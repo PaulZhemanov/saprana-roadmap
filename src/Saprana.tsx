@@ -13,12 +13,10 @@ type PropsType = {
   tasks: Array<TaskType>;
   removeTask: (id: string) => void;
   changeFilter: (value: FilterValuesType) => void;
-  addTask: (title: string) => void
+  addTask: (title: string) => void;
 };
 
-
 function Saprana(props: PropsType) {
-
   const [newTaskTitle, setNewTaskTitle] = useState("");
 
   return (
@@ -26,9 +24,24 @@ function Saprana(props: PropsType) {
       <h1>{props.title}</h1>
       <input
         value={newTaskTitle}
-        onChange={(e) => { setNewTaskTitle(e.currentTarget.value) }}
+        onChange={(e) => {
+          setNewTaskTitle(e.currentTarget.value);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            props.addTask(newTaskTitle);
+            setNewTaskTitle("");
+          }
+        }}
       />
-      <button onClick={() => props.addTask(newTaskTitle)}>Add</button>
+      <button
+        onClick={() => {
+          props.addTask(newTaskTitle);
+          setNewTaskTitle("");
+        }}
+      >
+        Add
+      </button>
       <ul>
         {props.tasks.map((t) => (
           <li key={t.id}>
