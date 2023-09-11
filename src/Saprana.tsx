@@ -14,6 +14,7 @@ type PropsType = {
   removeTask: (id: string) => void;
   changeFilter: (value: FilterValuesType) => void;
   addTask: (title: string) => void;
+  changeTaskStatus: (taskId: string, isDone: boolean) => void;
 };
 
 export function Saprana(props: PropsType) {
@@ -53,10 +54,18 @@ export function Saprana(props: PropsType) {
       <button onClick={addTask}>Add</button>
       <ul>
         {props.tasks.map((t) => {
-          const removeTask = () => {props.removeTask(t.id)};
+          const removeTask = () => props.removeTask(t.id);
+
+          const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
+            props.changeTaskStatus(t.id, e.currentTarget.checked);
+
           return (
             <li key={t.id}>
-              <input type="checkbox" checked={t.isDone} />
+              <input
+                type="checkbox"
+                checked={t.isDone}
+                onChange={onChangeHandler}
+              />
               <span>{t.title}</span>
               <button onClick={removeTask}>Remove</button>
             </li>
