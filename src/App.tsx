@@ -6,6 +6,12 @@ import { v1 } from "uuid";
 
 export type FilterValuesType = "all" | "completed" | "active";
 
+type TodoListType = {
+  id: string;
+  title: string;
+  filter: FilterValuesType;
+};
+
 function App() {
   let [tasks, setTasks] = useState<Array<TaskType>>([
     { id: v1(), title: "js", isDone: true },
@@ -44,17 +50,24 @@ function App() {
     tasksForlist = tasks.filter((t) => t.isDone === false);
   }
 
+  let todolists: Array<TodoListType> = [
+    { id: v1(), title: "frontend", filter: "all" },
+    { id: v1(), title: "backend", filter: "all" },
+  ];
   return (
     <div className="App">
-      <Saprana
-        title="Frontend"
-        tasks={tasksForlist}
-        removeTask={removeTask}
-        changeFilter={changeFilter}
-        addTask={addTask}
-        changeTaskStatus={changeTaskStatus}
-        filter={filter}
-      />
+      {todolists.map((tl) => (
+        <Saprana
+          key={tl.id}
+          title={tl.title}
+          tasks={tasksForlist}
+          removeTask={removeTask}
+          changeFilter={changeFilter}
+          addTask={addTask}
+          changeTaskStatus={changeTaskStatus}
+          filter={tl.filter}
+        />
+      ))}
     </div>
   );
 }
