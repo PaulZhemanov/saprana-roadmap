@@ -25,7 +25,7 @@ export function Saprana(props: PropsType) {
     setNewTaskTitle(e.currentTarget.value);
   };
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null)
+    setError(null);
     if (e.key === "Enter") {
       props.addTask(newTaskTitle);
       setNewTaskTitle("");
@@ -59,8 +59,8 @@ export function Saprana(props: PropsType) {
         className={error ? "error" : ""}
       />
       <button onClick={addTask}>Add</button>
-     { error && <div className="error-message">{error}</div>}
-  
+      {error && <div className="error-message">{error}</div>}
+
       <ul>
         {props.tasks.map((t) => {
           const removeTask = () => props.removeTask(t.id);
@@ -71,19 +71,35 @@ export function Saprana(props: PropsType) {
           return (
             <li key={t.id}>
               <input
+                className={t.isDone ? "is-done" : ""}
                 type="checkbox"
                 checked={t.isDone}
                 onChange={onChangeHandler}
               />
-              <span>{t.title}</span>
+              <span className={t.isDone ? "is-done" : ""}>{t.title}</span>
               <button onClick={removeTask}>Remove</button>
             </li>
           );
         })}
       </ul>
-      <button className={props.filter === 'all' ? "active-filter": ""} onClick={onAllClickHandler}>All</button>
-      <button className={props.filter === 'active' ? "active-filter": ""} onClick={onActiveClickHandler}>Active</button>
-      <button className={props.filter === 'completed' ? "active-filter": ""} onClick={onCompletedClickHandler}>Completed</button>
+      <button
+        className={props.filter === "all" ? "active-filter" : ""}
+        onClick={onAllClickHandler}
+      >
+        All
+      </button>
+      <button
+        className={props.filter === "active" ? "active-filter" : ""}
+        onClick={onActiveClickHandler}
+      >
+        Active
+      </button>
+      <button
+        className={props.filter === "completed" ? "active-filter" : ""}
+        onClick={onCompletedClickHandler}
+      >
+        Completed
+      </button>
     </div>
   );
 }
