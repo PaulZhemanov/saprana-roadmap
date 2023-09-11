@@ -1,3 +1,4 @@
+import { useState } from "react";
 import App from "./App";
 import { FilterValuesType } from "./App";
 
@@ -12,15 +13,22 @@ type PropsType = {
   tasks: Array<TaskType>;
   removeTask: (id: string) => void;
   changeFilter: (value: FilterValuesType) => void;
-  addTask: () => void
+  addTask: (title: string) => void
 };
 
+
 function Saprana(props: PropsType) {
+
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+
   return (
     <div>
       <h1>{props.title}</h1>
-      <input />
-      <button onClick={ () => props.addTask() }>Add</button>
+      <input
+        value={newTaskTitle}
+        onChange={(e) => { setNewTaskTitle(e.currentTarget.value) }}
+      />
+      <button onClick={() => props.addTask(newTaskTitle)}>Add</button>
       <ul>
         {props.tasks.map((t) => (
           <li key={t.id}>
@@ -36,9 +44,27 @@ function Saprana(props: PropsType) {
           </li>
         ))}
       </ul>
-      <button onClick={() => { props.changeFilter("all") }}>All</button>
-      <button onClick={() => { props.changeFilter("active") }}>Active</button>
-      <button onClick={() => { props.changeFilter("completed") }}>Completed</button>
+      <button
+        onClick={() => {
+          props.changeFilter("all");
+        }}
+      >
+        All
+      </button>
+      <button
+        onClick={() => {
+          props.changeFilter("active");
+        }}
+      >
+        Active
+      </button>
+      <button
+        onClick={() => {
+          props.changeFilter("completed");
+        }}
+      >
+        Completed
+      </button>
     </div>
   );
 }
