@@ -13,19 +13,23 @@ type TodoListType = {
 };
 
 function App() {
+  
   let [tasks, setTasks] = useState<Array<TaskType>>([
     { id: v1(), title: "js", isDone: true },
     { id: v1(), title: "jsx", isDone: false },
     { id: v1(), title: "css", isDone: true },
   ]);
-  let [filter, setFilter] = useState<FilterValuesType>("all");
 
   function removeTask(id: string) {
     let filteredtasks = tasks.filter((t) => t.id !== id);
     setTasks(filteredtasks);
   }
-  function changeFilter(value: FilterValuesType) {
-    setFilter(value);
+  function changeFilter(todolistId: string, value: FilterValuesType) {
+    let todolist = todoLists.find((tl) => tl.id === todolistId);
+    if (todolist) {
+      todolist.filter = value
+      setTodolists([...todoLists]);
+    }
   }
 
   function addTask(title: string) {
@@ -42,32 +46,36 @@ function App() {
     setTasks([...tasks]);
   }
 
-  let tasksForlist = tasks;
-  if (filter === "completed") {
-    tasksForlist = tasks.filter((t) => t.isDone === true);
-  }
-  if (filter === "active") {
-    tasksForlist = tasks.filter((t) => t.isDone === false);
-  }
-
-  let todolists: Array<TodoListType> = [
+  let [todoLists, setTodolists] = useState<Array<TodoListType>> ([
     { id: v1(), title: "frontend", filter: "all" },
     { id: v1(), title: "backend", filter: "all" },
-  ];
+  ]);
+
   return (
     <div className="App">
-      {todolists.map((tl) => (
-        <Saprana
-          key={tl.id}
-          title={tl.title}
-          tasks={tasksForlist}
-          removeTask={removeTask}
-          changeFilter={changeFilter}
-          addTask={addTask}
-          changeTaskStatus={changeTaskStatus}
-          filter={tl.filter}
-        />
-      ))}
+      {todoLists.map((tl) => {
+        let tasksForlist = tasks;
+        if (tl.filter === "completed") {
+          tasksForlist = tasks.filter((t) => t.isDone === true);
+        }
+        if (tl.filter === "active") {
+          tasksForlist = tasks.filter((t) => t.isDone === false);
+        }
+
+        return (
+          <Saprana
+            key={tl.id}
+            id={tl.id}
+            title={tl.title}
+            tasks={tasksForlist}
+            removeTask={removeTask}
+            changeFilter={changeFilter}
+            addTask={addTask}
+            changeTaskStatus={changeTaskStatus}
+            filter={tl.filter}
+          />
+        );
+      })}
     </div>
   );
 }
