@@ -11,6 +11,8 @@ type PropsType = {
   id: string;
   title: string;
   tasks: Array<TaskType>;
+  filter: FilterValuesType;
+  removeTodoList: (todolistId: string) => void;
   removeTask: (todolistId: string, id: string) => void;
   changeFilter: (todolistId: string, value: FilterValuesType) => void;
   addTask: (todolistId: string, title: string) => void;
@@ -19,11 +21,9 @@ type PropsType = {
     taskId: string,
     isDone: boolean
   ) => void;
-  filter: FilterValuesType;
 };
 
 export function Saprana(props: PropsType) {
-
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -57,9 +57,15 @@ export function Saprana(props: PropsType) {
     props.changeFilter(props.id, "completed");
   };
 
+  const removeTodoList = () => {
+    props.removeTodoList(props.id);
+  };
+
   return (
     <div>
-      <h1>{props.title}</h1>
+      <h1>
+        {props.title} <button onClick={removeTodoList}>Remove</button>
+      </h1>
       <input
         value={newTaskTitle}
         onChange={onNewTitleChangeHandler}
