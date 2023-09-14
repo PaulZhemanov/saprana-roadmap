@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import Saprana from "./Saprana";
-import { TaskType } from "./Saprana";
+import Todolist from "./Todolist";
 import { v1 } from "uuid";
 
 export type FilterValuesType = "all" | "completed" | "active";
@@ -90,7 +89,7 @@ function App() {
         }
 
         return (
-          <Saprana
+          <Todolist
             key={tl.id}
             id={tl.id}
             title={tl.title}

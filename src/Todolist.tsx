@@ -23,7 +23,7 @@ type PropsType = {
   ) => void;
 };
 
-export function Saprana(props: PropsType) {
+export function Todolist(props: PropsType) {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -118,4 +118,4 @@ export function Saprana(props: PropsType) {
   );
 }
 
-export default Saprana;
+export default Todolist;
