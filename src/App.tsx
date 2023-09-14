@@ -79,6 +79,7 @@ function App() {
 
   return (
     <div className="App">
+      <input/><button>+</button>
       {todoLists.map((tl) => {
         let tasksForlist = tasksObj[tl.id];
         if (tl.filter === "completed") {
