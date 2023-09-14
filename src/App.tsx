@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import {Todolist, AddItemForm} from "./Todolist";
+import Todolist from "./Todolist";
+import AddItemForm from "./AddItemForm";
 import { v1 } from "uuid";
 
 export type FilterValuesType = "all" | "completed" | "active";
