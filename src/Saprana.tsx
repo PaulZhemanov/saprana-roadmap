@@ -8,36 +8,43 @@ export type TaskType = {
 };
 
 type PropsType = {
-  id: string
+  id: string;
   title: string;
   tasks: Array<TaskType>;
-  removeTask: (id: string) => void;
+  removeTask: (todolistId: string, id: string) => void;
   changeFilter: (todolistId: string, value: FilterValuesType) => void;
-  addTask: (title: string) => void;
-  changeTaskStatus: (taskId: string, isDone: boolean) => void;
+  addTask: (todolistId: string, title: string) => void;
+  changeTaskStatus: (
+    todolistId: string,
+    taskId: string,
+    isDone: boolean
+  ) => void;
   filter: FilterValuesType;
 };
 
 export function Saprana(props: PropsType) {
+
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  const addTask = () => {
+    if (newTaskTitle.trim() !== "") {
+      props.addTask(props.id, newTaskTitle);
+      setNewTaskTitle("");
+    } else {
+      setError("Field is required");
+    }
+  };
 
   const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTaskTitle(e.currentTarget.value);
   };
+
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(null);
     if (e.key === "Enter") {
-      props.addTask(newTaskTitle);
+      props.addTask(props.id, newTaskTitle);
       setNewTaskTitle("");
-    }
-  };
-  const addTask = () => {
-    if (newTaskTitle.trim() !== "") {
-      props.addTask(newTaskTitle);
-      setNewTaskTitle("");
-    } else {
-      setError("Field is required");
     }
   };
   const onAllClickHandler = () => {
@@ -64,10 +71,10 @@ export function Saprana(props: PropsType) {
 
       <ul>
         {props.tasks.map((t) => {
-          const removeTask = () => props.removeTask(t.id);
+          const removeTask = () => props.removeTask(props.id, t.id);
 
           const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
-            props.changeTaskStatus(t.id, e.currentTarget.checked);
+            props.changeTaskStatus(props.id, t.id, e.currentTarget.checked);
 
           return (
             <li key={t.id}>
