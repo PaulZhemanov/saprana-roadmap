@@ -1,16 +1,16 @@
 import { ChangeEvent, useState, KeyboardEvent } from "react";
 
 type AddItemFormType = {
-  id: string;
-  addTask: (todolistId: string, title: string) => void;
+  addItem: (title: string) => void;
 };
 
 function AddItemForm(props: AddItemFormType) {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
+  
   const addTask = () => {
     if (newTaskTitle.trim() !== "") {
-      props.addTask(props.id, newTaskTitle);
+      props.addItem(newTaskTitle);
       setNewTaskTitle("");
     } else {
       setError("Field is required");
@@ -22,7 +22,7 @@ function AddItemForm(props: AddItemFormType) {
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(null);
     if (e.key === "Enter") {
-      props.addTask(props.id, newTaskTitle);
+      props.addItem(newTaskTitle);
       setNewTaskTitle("");
     }
   };
