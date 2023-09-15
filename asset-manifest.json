@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/saprana-roadmap/static/css/main.8785da40.css",
-    "main.js": "/saprana-roadmap/static/js/main.0a1bc17f.js",
+    "main.css": "/saprana-roadmap/static/css/main.bc11627e.css",
+    "main.js": "/saprana-roadmap/static/js/main.9d4b7a88.js",
     "static/js/787.97a945da.chunk.js": "/saprana-roadmap/static/js/787.97a945da.chunk.js",
     "index.html": "/saprana-roadmap/index.html",
-    "main.8785da40.css.map": "/saprana-roadmap/static/css/main.8785da40.css.map",
-    "main.0a1bc17f.js.map": "/saprana-roadmap/static/js/main.0a1bc17f.js.map",
+    "main.bc11627e.css.map": "/saprana-roadmap/static/css/main.bc11627e.css.map",
+    "main.9d4b7a88.js.map": "/saprana-roadmap/static/js/main.9d4b7a88.js.map",
     "787.97a945da.chunk.js.map": "/saprana-roadmap/static/js/787.97a945da.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8785da40.css",
-    "static/js/main.0a1bc17f.js"
+    "static/css/main.bc11627e.css",
+    "static/js/main.9d4b7a88.js"
   ]
 }
