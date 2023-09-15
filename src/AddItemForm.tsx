@@ -1,31 +1,31 @@
-import { ChangeEvent, useState, KeyboardEvent } from "react";
+import { ChangeEvent, useState, KeyboardEvent } from "react"
 
 type AddItemFormType = {
-  addItem: (title: string) => void;
-};
+  addItem: (title: string) => void
+}
 
 function AddItemForm(props: AddItemFormType) {
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  
+  const [newTaskTitle, setNewTaskTitle] = useState("")
+  const [error, setError] = useState<string | null>(null)
+
   const addTask = () => {
     if (newTaskTitle.trim() !== "") {
-      props.addItem(newTaskTitle);
-      setNewTaskTitle("");
+      props.addItem(newTaskTitle)
+      setNewTaskTitle("")
     } else {
-      setError("Field is required");
+      setError("Field is required")
     }
-  };
+  }
   const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTaskTitle(e.currentTarget.value);
-  };
+    setNewTaskTitle(e.currentTarget.value)
+  }
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null);
+    setError(null)
     if (e.key === "Enter") {
-      props.addItem(newTaskTitle);
-      setNewTaskTitle("");
+      props.addItem(newTaskTitle)
+      setNewTaskTitle("")
     }
-  };
+  }
   return (
     <div>
       <input
@@ -37,7 +37,7 @@ function AddItemForm(props: AddItemFormType) {
       <button onClick={addTask}>Add</button>
       {error && <div className="error-message">{error}</div>}
     </div>
-  );
+  )
 }
 
-export default AddItemForm;
+export default AddItemForm

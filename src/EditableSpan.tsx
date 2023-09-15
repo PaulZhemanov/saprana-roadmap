@@ -4,7 +4,7 @@ type EditableSpanPropsType = {
   title: string
   onChange: (newValue: string) => void
 }
- type EditModeType = false | true
+type EditModeType = false | true
 
 function EditableSpan(props: EditableSpanPropsType) {
   let [editMode, setEditMode] = useState<EditModeType>(false)

@@ -1,49 +1,55 @@
-import { ChangeEvent } from "react";
-import { FilterValuesType } from "./App";
-import AddItemForm from "./AddItemForm";
-import EditableSpan from "./EditableSpan";
+import { ChangeEvent } from "react"
+import { FilterValuesType } from "./App"
+import AddItemForm from "./AddItemForm"
+import EditableSpan from "./EditableSpan"
+import { title } from "process"
 
 export type TaskType = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
+  id: string
+  title: string
+  isDone: boolean
+}
 
 type PropsType = {
-  id: string;
-  title: string;
-  tasks: Array<TaskType>;
-  filter: FilterValuesType;
-  removeTodoList: (todolistId: string) => void;
-  removeTask: (todolistId: string, id: string) => void;
-  changeFilter: (todolistId: string, value: FilterValuesType) => void;
-  addTask: (todolistId: string, title: string) => void;
+  id: string
+  title: string
+  tasks: Array<TaskType>
+  filter: FilterValuesType
+  removeTodoList: (todolistId: string) => void
+  changeTodolistTitle: (todolistId: string, newTitle: string) => void
+  removeTask: (todolistId: string, id: string) => void
+  changeFilter: (todolistId: string, value: FilterValuesType) => void
+  addTask: (todolistId: string, title: string) => void
   changeTaskStatus: (
     todolistId: string,
     taskId: string,
     isDone: boolean
-  ) => void;
+  ) => void
   changeTaskTitle: (
     taskId: string,
     newTitle: string,
-    todolistId: string,
-  ) => void;
-};
+    todolistId: string
+  ) => void
+}
 
 function Todolist(props: PropsType) {
   const onAllClickHandler = () => {
-    props.changeFilter(props.id, "all");
-  };
+    props.changeFilter(props.id, "all")
+  }
   const onActiveClickHandler = () => {
-    props.changeFilter(props.id, "active");
-  };
+    props.changeFilter(props.id, "active")
+  }
   const onCompletedClickHandler = () => {
-    props.changeFilter(props.id, "completed");
-  };
+    props.changeFilter(props.id, "completed")
+  }
 
   const removeTodoList = () => {
-    props.removeTodoList(props.id);
-  };
+    props.removeTodoList(props.id)
+  }
+
+  const changeTodolistTitle = (newTitle: string) => {
+    props.changeTodolistTitle(props.id, newTitle)
+  }
 
   const addTask = (title: string) => {
     props.addTask(props.id, title)
@@ -51,20 +57,21 @@ function Todolist(props: PropsType) {
   return (
     <div>
       <h1>
-        {props.title} <button onClick={removeTodoList}>Remove</button>
+        <EditableSpan title={props.title} onChange={changeTodolistTitle} />
+        <button onClick={removeTodoList}>Remove</button>
       </h1>
 
       <AddItemForm addItem={addTask} />
 
       <ul>
         {props.tasks.map((t) => {
-          const removeTask = () => props.removeTask(props.id, t.id);
+          const removeTask = () => props.removeTask(props.id, t.id)
 
           const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-            props.changeTaskStatus(props.id, t.id, e.currentTarget.checked);
-          
+            props.changeTaskStatus(props.id, t.id, e.currentTarget.checked)
+
           const onChangeTitleHandler = (newValue: string) =>
-            props.changeTaskTitle(t.id, newValue, props.id);
+            props.changeTaskTitle(t.id, newValue, props.id)
 
           return (
             <li key={t.id}>
@@ -99,8 +106,7 @@ function Todolist(props: PropsType) {
         Completed
       </button>
     </div>
-  );
+  )
 }
 
-export default Todolist;
-
+export default Todolist
