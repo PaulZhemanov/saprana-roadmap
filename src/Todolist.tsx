@@ -85,9 +85,10 @@ function Todolist(props: PropsType) {
                 size="small"
               />
               <EditableSpan title={t.title} onChange={onChangeTitleHandler} />
-              <IconButton onClick={removeTask} disabled color="primary">
+
+              <Button onClick={removeTask} >
                 <Delete />
-              </IconButton>
+              </Button>
             </li>
           )
         })}

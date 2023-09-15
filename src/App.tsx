@@ -3,6 +3,9 @@ import "./App.css"
 import Todolist, { TaskType } from "./Todolist"
 import AddItemForm from "./AddItemForm"
 import { v1 } from "uuid"
+import { Paper } from "@material-ui/core"
+
+
 
 export type FilterValuesType = "all" | "completed" | "active"
 
@@ -110,9 +113,10 @@ function App() {
       setTodolists([...todoLists])
     }
   }
-
+ 
   return (
     <div className="App">
+     
       <AddItemForm addItem={addTodoList} />
       {todoLists.map((tl) => {
         let tasksForlist = tasksObj[tl.id]
@@ -124,20 +128,22 @@ function App() {
         }
 
         return (
-          <Todolist
-            key={tl.id}
-            id={tl.id}
-            title={tl.title}
-            tasks={tasksForlist}
-            removeTask={removeTask}
-            changeFilter={changeFilter}
-            addTask={addTask}
-            changeTaskStatus={changeTaskStatus}
-            changeTaskTitle={changeTaskTitle}
-            filter={tl.filter}
-            removeTodoList={removeTodoList}
-            changeTodolistTitle={changeTodolistTitle}
-          />
+          <Paper elevation={24} variant="outlined" >
+            <Todolist
+              key={tl.id}
+              id={tl.id}
+              title={tl.title}
+              tasks={tasksForlist}
+              removeTask={removeTask}
+              changeFilter={changeFilter}
+              addTask={addTask}
+              changeTaskStatus={changeTaskStatus}
+              changeTaskTitle={changeTaskTitle}
+              filter={tl.filter}
+              removeTodoList={removeTodoList}
+              changeTodolistTitle={changeTodolistTitle}
+            />
+          </Paper>
         )
       })}
     </div>
