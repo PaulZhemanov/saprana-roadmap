@@ -25,7 +25,7 @@ function EditableSpan({title, onChange }: TEditableSpanProps) {
 
   return editMode ? (
     <TextField
-      value={newTitle}
+      value={title}
       onChange={onChangeTitleHandler}
       onBlur={onActivateViewMode}
       autoFocus

@@ -5,32 +5,32 @@ type TAddItemForm = {
   onAddItem: (title: string) => void
 }
 
-function AddItemForm(props: TAddItemForm) {
-  const [newTaskTitle, setNewTaskTitle] = useState("")
+function AddItemForm({onAddItem}: TAddItemForm) {
+  const [newItemTitle, setNewItemTitle] = useState("")
   const [error, setError] = useState<string | null>(null)
 
-  const onAddItem = () => {
-    if (newTaskTitle.trim() !== "") {
-      props.onAddItem(newTaskTitle)
-      setNewTaskTitle("")
+  const AddItem = () => {
+    if (newItemTitle.trim() !== "") {
+      onAddItem(newItemTitle)
+      setNewItemTitle("")
     } else {
       setError("Field is required")
     }
   }
   const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTaskTitle(e.currentTarget.value)
+    setNewItemTitle(e.currentTarget.value)
   }
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(null)
     if (e.key === "Enter") {
-      props.onAddItem(newTaskTitle)
-      setNewTaskTitle("")
+      onAddItem(newItemTitle)
+      setNewItemTitle("")
     }
   }
   return (
     <div>
       <TextField
-        value={newTaskTitle}
+        value={newItemTitle}
         onChange={onNewTitleChangeHandler}
         onKeyDown={onKeyPressHandler}
         error={!!error}
@@ -39,7 +39,7 @@ function AddItemForm(props: TAddItemForm) {
         helperText={error}
         size="small"
       />
-      <Button onClick={onAddItem} variant="contained" color="primary">
+      <Button onClick={AddItem} variant="contained" color="primary">
         Add
       </Button>
     </div>
