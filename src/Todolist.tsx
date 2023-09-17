@@ -1,25 +1,25 @@
 import { ChangeEvent } from "react"
-import { FilterValuesType } from "./App"
+import { TFilterValues } from "./App"
 import AddItemForm from "./AddItemForm"
 import EditableSpan from "./EditableSpan"
 import { Button, Checkbox, IconButton }  from "@material-ui/core"
 import { Delete } from "@material-ui/icons"
 
-export type TaskType = {
+export type TTask = {
   id: string
   title: string
   isDone: boolean
 }
 
-type PropsType = {
+type TProps = {
   id: string
   title: string
-  tasks: Array<TaskType>
-  filter: FilterValuesType
+  tasks: Array<TTask>
+  filter: TFilterValues
   removeTodoList: (todolistId: string) => void
   changeTodolistTitle: (todolistId: string, newTitle: string) => void
   removeTask: (todolistId: string, id: string) => void
-  changeFilter: (todolistId: string, value: FilterValuesType) => void
+  changeFilter: (todolistId: string, value: TFilterValues) => void
   addTask: (todolistId: string, title: string) => void
   changeTaskStatus: (
     todolistId: string,
@@ -33,7 +33,7 @@ type PropsType = {
   ) => void
 }
 
-function Todolist(props: PropsType) {
+function Todolist(props: TProps) {
   const onAllClickHandler = () => {
     props.changeFilter(props.id, "all")
   }
@@ -86,7 +86,7 @@ function Todolist(props: PropsType) {
               />
               <EditableSpan title={t.title} onChange={onChangeTitleHandler} />
 
-              <Button onClick={removeTask} >
+              <Button onClick={removeTask}>
                 <Delete />
               </Button>
             </li>
