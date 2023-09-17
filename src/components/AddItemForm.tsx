@@ -2,16 +2,16 @@ import { Button, TextField } from "@material-ui/core"
 import { ChangeEvent, useState, KeyboardEvent } from "react"
 
 type TAddItemForm = {
-  addItem: (title: string) => void
+  onAddItem: (title: string) => void
 }
 
 function AddItemForm(props: TAddItemForm) {
   const [newTaskTitle, setNewTaskTitle] = useState("")
   const [error, setError] = useState<string | null>(null)
 
-  const addTask = () => {
+  const onAddItem = () => {
     if (newTaskTitle.trim() !== "") {
-      props.addItem(newTaskTitle)
+      props.onAddItem(newTaskTitle)
       setNewTaskTitle("")
     } else {
       setError("Field is required")
@@ -23,7 +23,7 @@ function AddItemForm(props: TAddItemForm) {
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(null)
     if (e.key === "Enter") {
-      props.addItem(newTaskTitle)
+      props.onAddItem(newTaskTitle)
       setNewTaskTitle("")
     }
   }
@@ -39,7 +39,7 @@ function AddItemForm(props: TAddItemForm) {
         helperText={error}
         size="small"
       />
-      <Button onClick={addTask} variant="contained" color="primary">
+      <Button onClick={onAddItem} variant="contained" color="primary">
         Add
       </Button>
     </div>

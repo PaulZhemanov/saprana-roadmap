@@ -2,7 +2,7 @@ import { ChangeEvent } from "react"
 import { TFilterValues } from "./App"
 import AddItemForm from "./AddItemForm"
 import EditableSpan from "./EditableSpan"
-import { Button, Checkbox, IconButton }  from "@material-ui/core"
+import { Button, Checkbox, IconButton } from "@material-ui/core"
 import { Delete } from "@material-ui/icons"
 
 export type TTask = {
@@ -16,21 +16,21 @@ type TProps = {
   title: string
   tasks: Array<TTask>
   filter: TFilterValues
-  removeTodoList: (todolistId: string) => void
-  changeTodolistTitle: (todolistId: string, newTitle: string) => void
-  removeTask: (todolistId: string, id: string) => void
   changeFilter: (todolistId: string, value: TFilterValues) => void
-  addTask: (todolistId: string, title: string) => void
-  changeTaskStatus: (
+  onChangeTaskStatus: (
     todolistId: string,
     taskId: string,
     isDone: boolean
   ) => void
-  changeTaskTitle: (
+  onChangeTaskTitle: (
     taskId: string,
     newTitle: string,
     todolistId: string
   ) => void
+  onRemoveTodoList: (todolistId: string) => void
+  onChangeTodolistTitle: (todolistId: string, newTitle: string) => void
+  onRemoveTask: (todolistId: string, id: string) => void
+  onAddTask: (todolistId: string, title: string) => void
 }
 
 function Todolist(props: TProps) {
@@ -44,49 +44,53 @@ function Todolist(props: TProps) {
     props.changeFilter(props.id, "completed")
   }
 
-  const removeTodoList = () => {
-    props.removeTodoList(props.id)
+  const onRemoveTodoList = () => {
+    props.onRemoveTodoList(props.id)
   }
 
-  const changeTodolistTitle = (newTitle: string) => {
-    props.changeTodolistTitle(props.id, newTitle)
+  const onChangeTodolistTitle = (newTitle: string) => {
+    props.onChangeTodolistTitle(props.id, newTitle)
   }
 
-  const addTask = (title: string) => {
-    props.addTask(props.id, title)
+  const onAddTask = (title: string) => {
+    props.onAddTask(props.id, title)
   }
   return (
     <div>
       <h1>
-        <EditableSpan title={props.title} onChange={changeTodolistTitle} />
+        <EditableSpan title={props.title} onChange={onChangeTodolistTitle} />
 
-        <IconButton onClick={removeTodoList}>
+        <IconButton onClick={onRemoveTodoList}>
           <Delete />
         </IconButton>
       </h1>
 
-      <AddItemForm addItem={addTask} />
+      <AddItemForm onAddItem={onAddTask} />
 
       <ul>
         {props.tasks.map((t) => {
-          const removeTask = () => props.removeTask(props.id, t.id)
+          const onRemoveTask = () => props.onRemoveTask(props.id, t.id)
 
-          const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-            props.changeTaskStatus(props.id, t.id, e.currentTarget.checked)
+          const onChangeTaskStatusHandler = (
+            e: ChangeEvent<HTMLInputElement>
+          ) => props.onChangeTaskStatus(props.id, t.id, e.currentTarget.checked)
 
-          const onChangeTitleHandler = (newValue: string) =>
-            props.changeTaskTitle(t.id, newValue, props.id)
+          const onChangeTaskTitleHandler = (newValue: string) =>
+            props.onChangeTaskTitle(t.id, newValue, props.id)
 
           return (
             <li key={t.id}>
               <Checkbox
                 checked={t.isDone}
-                onChange={onChangeStatusHandler}
+                onChange={onChangeTaskStatusHandler}
                 size="small"
               />
-              <EditableSpan title={t.title} onChange={onChangeTitleHandler} />
+              <EditableSpan
+                title={t.title}
+                onChange={onChangeTaskTitleHandler}
+              />
 
-              <Button onClick={removeTask}>
+              <Button onClick={onRemoveTask}>
                 <Delete />
               </Button>
             </li>

@@ -1,10 +1,8 @@
 import { useState } from "react"
-import "./App.css"
+import "./App.css" 
 import Todolist, { TTask } from "./Todolist"
 import AddItemForm from "./AddItemForm"
 import { Paper } from "@material-ui/core"
-
-
 
 export type TFilterValues = "all" | "completed" | "active"
 
@@ -16,9 +14,7 @@ type TTodoList = {
 
 type TTaskState = Record<string, Array<TTask>>
 
-
 function App() {
-
   const todoListsId1 = Math.random().toString()
   const todoListsId2 = Math.random().toString()
 
@@ -105,18 +101,18 @@ function App() {
     setTodolists(filteredTodolists)
     delete tasksObj[todolistId]
   }
+
   function changeTodolistTitle(id: string, newTitle: string) {
-    const todolist = todoLists.find(tl => tl.id === id)
+    const todolist = todoLists.find((tl) => tl.id === id)
     if (todolist) {
       todolist.title = newTitle
       setTodolists([...todoLists])
     }
   }
- 
+
   return (
     <div className="App">
-     
-      <AddItemForm addItem={addTodoList} />
+      <AddItemForm onAddItem={addTodoList} />
       {todoLists.map((tl) => {
         let tasksForlist = tasksObj[tl.id]
         if (tl.filter === "completed") {
@@ -127,17 +123,17 @@ function App() {
         }
 
         return (
-          <Paper elevation={24} variant="outlined" >
+          <Paper elevation={24} variant="outlined">
             <Todolist
               {...tl}
               tasks={tasksForlist}
-              removeTask={removeTask}
               changeFilter={changeFilter}
-              addTask={addTask}
-              changeTaskStatus={changeTaskStatus}
-              changeTaskTitle={changeTaskTitle}
-              removeTodoList={removeTodoList}
-              changeTodolistTitle={changeTodolistTitle}
+              onChangeTaskStatus={changeTaskStatus}
+              onChangeTaskTitle={changeTaskTitle}
+              onRemoveTodoList={removeTodoList}
+              onChangeTodolistTitle={changeTodolistTitle}
+              onRemoveTask={removeTask}
+              onAddTask={addTask}
             />
           </Paper>
         )
