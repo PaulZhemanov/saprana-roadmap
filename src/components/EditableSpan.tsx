@@ -7,31 +7,31 @@ type TEditableSpanProps = {
 }
 type TEditMode = false | true
 
-function EditableSpan(props: TEditableSpanProps) {
+function EditableSpan({title, onChange }: TEditableSpanProps) {
   let [editMode, setEditMode] = useState<TEditMode>(false)
-  let [title, setTitle] = useState("")
+  let [newTitle, setNewTitle] = useState(title)
 
   const onActivateEditMode = () => {
     setEditMode(true)
-    setTitle(props.title)
+    setNewTitle(title)
   }
 
   const onActivateViewMode = () => {
     setEditMode(false)
-    props.onChange(title)
+    onChange(newTitle)
   }
   const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) =>
-    setTitle(e.currentTarget.value)
+    setNewTitle(e.currentTarget.value)
 
   return editMode ? (
     <TextField
-      value={title}
+      value={newTitle}
       onChange={onChangeTitleHandler}
       onBlur={onActivateViewMode}
       autoFocus
     />
   ) : (
-    <span onDoubleClick={onActivateEditMode}>{props.title}</span>
+    <span onDoubleClick={onActivateEditMode}>{title}</span>
   )
 }
 
