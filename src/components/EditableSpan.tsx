@@ -5,6 +5,7 @@ interface IProps {
   title: string
   onChange: (newValue: string) => void
 }
+
 type TEditMode = false | true
 
 function EditableSpan({title, onChange }: IProps) {
@@ -22,15 +23,15 @@ function EditableSpan({title, onChange }: IProps) {
     }
     onChange(newTitle)
   }
-  const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => 
+
+  const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) =>
     setNewTitle(e.currentTarget.value)
-  
+
    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-     if (e.key === "Enter") {
-       onActivateViewMode()
-     }
+     e.key === "Enter" && onActivateViewMode()
    }
 
+   //todo всегда возвращай рутовый компонент
   return editMode ? (
     <TextField
       value={newTitle}

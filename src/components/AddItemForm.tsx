@@ -1,11 +1,11 @@
 import { Button, TextField } from "@material-ui/core"
 import { ChangeEvent, useState, KeyboardEvent } from "react"
 
-interface IAddItemForm {
+interface IProps {
   onAddItem: (title: string) => void
 }
 
-function AddItemForm({ onAddItem }: IAddItemForm) {
+function AddItemForm({ onAddItem }: IProps) {
   const [newItemTitle, setNewItemTitle] = useState("")
   const [error, setError] = useState<string | null>(null)
 
@@ -17,16 +17,18 @@ function AddItemForm({ onAddItem }: IAddItemForm) {
       setError("Field is required")
     }
   }
+
   const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewItemTitle(e.currentTarget.value)
   }
-const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-  setError(null)
-  if (e.key === "Enter" && newItemTitle.trim() !== "") {
-    onAddItem(newItemTitle)
-    setNewItemTitle("")
+
+  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    setError(null)
+    if (e.key === "Enter" && newItemTitle.trim() !== "") {
+      onAddItem(newItemTitle)
+      setNewItemTitle("")
+    }
   }
-}
 
   return (
     <div>

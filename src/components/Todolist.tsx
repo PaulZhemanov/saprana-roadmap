@@ -54,7 +54,13 @@ function Todolist(props: IProps) {
   const onAddTask = (title: string) => {
     props.onAddTask(props.id, title)
   }
-  return (
+
+  const onRemoveTask = (id: string) => props.onRemoveTask(props.id, id);
+
+  const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>, id: string) =>
+      props.onChangeTaskStatus(props.id, id, e.currentTarget.checked);
+
+    return (
     <div>
       <h1>
         <EditableSpan title={props.title} onChange={onChangeTodolistTitle} />
@@ -68,12 +74,7 @@ function Todolist(props: IProps) {
 
       <ul>
         {props.tasks.map((t) => {
-          const onRemoveTask = () => props.onRemoveTask(props.id, t.id)
-
-          const onChangeTaskStatusHandler = (
-            e: ChangeEvent<HTMLInputElement>
-          ) => props.onChangeTaskStatus(props.id, t.id, e.currentTarget.checked)
-
+            //todo remove from here
           const onChangeTaskTitleHandler = (newValue: string) =>
             props.onChangeTaskTitle(t.id, newValue, props.id)
 
@@ -81,7 +82,7 @@ function Todolist(props: IProps) {
             <li key={t.id}>
               <Checkbox
                 checked={t.isDone}
-                onChange={onChangeTaskStatusHandler}
+                onChange={(e: any) => onChangeTaskStatusHandler(e, t.id)}
                 size="small"
               />
               <EditableSpan
@@ -89,7 +90,7 @@ function Todolist(props: IProps) {
                 onChange={onChangeTaskTitleHandler}
               />
 
-              <Button onClick={onRemoveTask}>
+              <Button onClick={() => onRemoveTask(t.id)}>
                 <Delete />
               </Button>
             </li>
