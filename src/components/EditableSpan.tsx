@@ -1,5 +1,5 @@
 import { TextField } from "@material-ui/core"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useState, KeyboardEvent } from "react"
 
 interface IProps {
   title: string
@@ -20,14 +20,21 @@ function EditableSpan({title, onChange }: IProps) {
     setEditMode(false)
     onChange(newTitle)
   }
-  const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) =>
+  const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => 
     setNewTitle(e.currentTarget.value)
+  
+   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+     if (e.key === "Enter") {
+       onActivateViewMode()
+     }
+   }
 
   return editMode ? (
     <TextField
       value={newTitle}
       onChange={onChangeTitleHandler}
       onBlur={onActivateViewMode}
+      onKeyDown={onKeyPressHandler}
       autoFocus
     />
   ) : (
