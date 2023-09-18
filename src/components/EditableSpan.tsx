@@ -25,7 +25,7 @@ function EditableSpan({title, onChange }: IProps) {
 
   return editMode ? (
     <TextField
-      value={title}
+      value={newTitle}
       onChange={onChangeTitleHandler}
       onBlur={onActivateViewMode}
       autoFocus
