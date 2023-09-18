@@ -9,7 +9,7 @@ type TEditMode = false | true
 
 function EditableSpan({title, onChange }: IProps) {
   let [editMode, setEditMode] = useState<TEditMode>(false)
-  let [newTitle, setNewTitle] = useState(title)
+  let [newTitle, setNewTitle] = useState("")
 
   const onActivateEditMode = () => {
     setEditMode(true)
@@ -17,7 +17,9 @@ function EditableSpan({title, onChange }: IProps) {
   }
 
   const onActivateViewMode = () => {
-    setEditMode(false)
+    if (newTitle.trim() !== "") {
+      setEditMode(false)
+    }
     onChange(newTitle)
   }
   const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => 
