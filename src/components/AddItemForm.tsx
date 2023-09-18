@@ -20,13 +20,14 @@ function AddItemForm({ onAddItem }: IAddItemForm) {
   const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewItemTitle(e.currentTarget.value)
   }
-  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null)
-    if (e.key === "Enter") {
-      onAddItem(newItemTitle)
-      setNewItemTitle("")
-    }
+const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+  setError(null)
+  if (e.key === "Enter" && newItemTitle.trim() !== "") {
+    onAddItem(newItemTitle)
+    setNewItemTitle("")
   }
+}
+
   return (
     <div>
       <TextField
