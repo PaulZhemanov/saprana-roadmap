@@ -1,11 +1,11 @@
 import { Button, TextField } from "@material-ui/core"
 import { ChangeEvent, useState, KeyboardEvent } from "react"
 
-type TAddItemForm = {
+interface IAddItemForm {
   onAddItem: (title: string) => void
 }
 
-function AddItemForm({onAddItem}: TAddItemForm) {
+function AddItemForm({ onAddItem }: IAddItemForm) {
   const [newItemTitle, setNewItemTitle] = useState("")
   const [error, setError] = useState<string | null>(null)
 

@@ -1,13 +1,13 @@
 import { TextField } from "@material-ui/core"
 import { ChangeEvent, useState } from "react"
 
-type TEditableSpanProps = {
+interface IProps {
   title: string
   onChange: (newValue: string) => void
 }
 type TEditMode = false | true
 
-function EditableSpan({title, onChange }: TEditableSpanProps) {
+function EditableSpan({title, onChange }: IProps) {
   let [editMode, setEditMode] = useState<TEditMode>(false)
   let [newTitle, setNewTitle] = useState(title)
 

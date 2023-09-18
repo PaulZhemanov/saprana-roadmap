@@ -10,8 +10,7 @@ export type TTask = {
   title: string
   isDone: boolean
 }
-
-type TProps = {
+interface IProps {
   id: string
   title: string
   tasks: Array<TTask>
@@ -33,7 +32,7 @@ type TProps = {
   onAddTask: (todolistId: string, title: string) => void
 }
 
-function Todolist(props: TProps) {
+function Todolist(props: IProps) {
   const onAllClickHandler = () => {
     props.changeFilter(props.id, "all")
   }
