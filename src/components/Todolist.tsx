@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react"
-import { TFilterValues } from "./App"
+import { TFilterValues } from "../App"
 import AddItemForm from "./AddItemForm"
 import EditableSpan from "./EditableSpan"
 import { Button, Checkbox, IconButton } from "@material-ui/core"

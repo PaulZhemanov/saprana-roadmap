@@ -1,7 +1,7 @@
 import { useState } from "react"
-import "./App.css" 
-import Todolist, { TTask } from "./Todolist"
-import AddItemForm from "./AddItemForm"
+import "./App.css"
+import Todolist, { TTask } from "./components/Todolist"
+import AddItemForm from "./components/AddItemForm"
 import { Paper } from "@material-ui/core"
 
 export type TFilterValues = "all" | "completed" | "active"
@@ -23,19 +23,31 @@ function App() {
     { id: todoListsId2, title: "backend", filter: "all" },
   ])
 
-  let [tasksObj, setTasks] = useState<TTaskState>({
-    [todoListsId1]: [
+let [tasksObj, setTasks] = useState<TTaskState>(
+  todoLists.reduce((acc, list) => {
+    const tasks: TTask[] = [
       { id: Math.random().toString(16), title: "js", isDone: true },
       { id: Math.random().toString(16), title: "jsx", isDone: false },
       { id: Math.random().toString(16), title: "css", isDone: true },
-    ],
+    ]
+    acc[list.id] = tasks
+    return acc
+  }, {} as  TTaskState )
+)
 
-    [todoListsId2]: [
-      { id: Math.random().toString(16), title: "js", isDone: true },
-      { id: Math.random().toString(16), title: "jsx", isDone: false },
-      { id: Math.random().toString(16), title: "css", isDone: true },
-    ],
-  })
+  // let [tasksObj, setTasks] = useState<TTaskState>({
+  //   [todoListsId1]: [
+  //     { id: Math.random().toString(16), title: "js", isDone: true },
+  //     { id: Math.random().toString(16), title: "jsx", isDone: false },
+  //     { id: Math.random().toString(16), title: "css", isDone: true },
+  //   ],
+
+  //   [todoListsId2]: [
+  //     { id: Math.random().toString(16), title: "js", isDone: true },
+  //     { id: Math.random().toString(16), title: "jsx", isDone: false },
+  //     { id: Math.random().toString(16), title: "css", isDone: true },
+  //   ],
+  // })
 
   function removeTask(todolistId: string, id: string) {
     const tasks = tasksObj[todolistId]
