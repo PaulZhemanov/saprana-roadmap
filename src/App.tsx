@@ -1,8 +1,9 @@
 import {useState} from "react"
 import "./App.css"
-import Todolist, {TTask} from "./components/Todolist"
 import AddItemForm from "./components/AddItemForm"
-import {Paper} from "@material-ui/core"
+import {Button, Checkbox, IconButton, Paper} from "@material-ui/core"
+import EditableSpan from "./components/EditableSpan"
+import { Delete } from "@material-ui/icons"
 
 export type TFilterValues = "all" | "completed" | "active"
 
@@ -10,6 +11,11 @@ type TTodoList = {
   id: string
   title: string
   filter: TFilterValues
+}
+type TTask = {
+  id: string
+  title: string
+  isDone: boolean
 }
 
 /*
@@ -138,36 +144,80 @@ let [tasksObj, setTasks] = useState<TTaskState>(
     }
   }
 
-  return (
-    <div className="App">
-      <AddItemForm onAddItem={addTodoList} />
-      {/*Старайся делать так  {todoList.map(tl => <Component....)}*/}
-      {todoLists.map((tl) => {
-        let tasksForlist = tasksObj[tl.id];
-        if (tl.filter === "completed") tasksForlist = tasksForlist.filter((t) => t.isDone);
-        if (tl.filter === "active") tasksForlist = tasksForlist.filter((t) => !t.isDone);
+   return (
+     <div className="App">
+       <AddItemForm onAddItem={addTodoList} />
+       {todoLists.map((tl) => {
+         let tasksForList = tasksObj[tl.id]
+         if (tl.filter === "completed")
+           tasksForList = tasksForList.filter((t) => t.isDone)
+         if (tl.filter === "active")
+           tasksForList = tasksForList.filter((t) => !t.isDone)
 
+         return (
+           <Paper elevation={24} variant="outlined" key={tl.id}>
+             <h1>
+               <EditableSpan
+                 title={tl.title}
+                 onChange={(newTitle) => changeTodolistTitle(tl.id, newTitle)}
+               />
+               <IconButton onClick={() => removeTodoList(tl.id)}>
+                 <Delete />
+               </IconButton>
+             </h1>
 
-        return (
-          <Paper elevation={24} variant="outlined">
-            {/*избавься от todolist*/}
-            <Todolist
-              {...tl}
-              key={tl.id}
-              tasks={tasksForlist}
-              changeFilter={changeFilter}
-              onChangeTaskStatus={changeTaskStatus}
-              onChangeTaskTitle={changeTaskTitle}
-              onRemoveTodoList={removeTodoList}
-              onChangeTodolistTitle={changeTodolistTitle}
-              onRemoveTask={removeTask}
-              onAddTask={addTask}
-            />
-          </Paper>
-        )
-      })}
-    </div>
-  )
+             <AddItemForm onAddItem={(title) => addTask(tl.id, title)} />
+
+             <ul>
+               {tasksForList.map((t) => (
+                 <li key={t.id}>
+                   <Checkbox
+                     checked={t.isDone}
+                     onChange={(e) =>
+                       changeTaskStatus(tl.id, t.id, e.currentTarget.checked)
+                     }
+                     size="small"
+                   />
+                   <EditableSpan
+                     title={t.title}
+                     onChange={(newTitle) =>
+                       changeTaskTitle(t.id, newTitle, tl.id)
+                     }
+                   />
+                   <Button onClick={() => removeTask(tl.id, t.id)}>
+                     <Delete />
+                   </Button>
+                 </li>
+               ))}
+             </ul>
+             <Button
+               variant={tl.filter === "all" ? "contained" : "text"}
+               onClick={() => changeFilter(tl.id, "all")}
+               size="small"
+             >
+               All
+             </Button>
+             <Button
+               variant={tl.filter === "active" ? "contained" : "text"}
+               onClick={() => changeFilter(tl.id, "active")}
+               color="primary"
+               size="small"
+             >
+               Active
+             </Button>
+             <Button
+               variant={tl.filter === "completed" ? "contained" : "text"}
+               onClick={() => changeFilter(tl.id, "completed")}
+               color="secondary"
+               size="small"
+             >
+               Completed
+             </Button>
+           </Paper>
+         )
+       })}
+     </div>
+   )
 }
 
 export default App
