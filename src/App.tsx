@@ -1,8 +1,8 @@
-import { useState } from "react"
+import {useState} from "react"
 import "./App.css"
-import Todolist, { TTask } from "./components/Todolist"
+import Todolist, {TTask} from "./components/Todolist"
 import AddItemForm from "./components/AddItemForm"
-import { Paper } from "@material-ui/core"
+import {Paper} from "@material-ui/core"
 
 export type TFilterValues = "all" | "completed" | "active"
 
@@ -12,42 +12,60 @@ type TTodoList = {
   filter: TFilterValues
 }
 
+/*
+*
+store = {
+  todoLists: TTodoList[] = []
+}
+
+type TTodoList = {
+  id: string
+  title: string
+  filter: TFilterValues
+  tasks: Array<TTask>
+}
+*
+*
+*
+store = {
+  todoLists: TTodoList[] = [],
+  tasks: TTask = Array<TTask>
+}
+type TTotoList{
+  id: string
+  title: string
+  filter: TFilterValues
+}
+
+type TTask = {
+  id: string
+  title: string
+  isDone: boolean
+  todoListId: string
+}
+
+*
+* */
+
 type TTaskState = Record<string, Array<TTask>>
 
-function App() {
-  const todoListsId1 = Math.random().toString()
-  const todoListsId2 = Math.random().toString()
+const App = () => {
 
   let [todoLists, setTodolists] = useState<Array<TTodoList>>([
-    { id: todoListsId1, title: "frontend", filter: "all" },
-    { id: todoListsId2, title: "backend", filter: "all" },
+    { id: Math.random().toString(), title: "frontend", filter: "all" },
+    { id: Math.random().toString(), title: "backend", filter: "all" },
   ])
 
 let [tasksObj, setTasks] = useState<TTaskState>(
   todoLists.reduce((acc, list) => {
-    const tasks: TTask[] = [
-      { id: Math.random().toString(16), title: "js", isDone: true },
-      { id: Math.random().toString(16), title: "jsx", isDone: false },
-      { id: Math.random().toString(16), title: "css", isDone: true },
+    acc[list.id] = [
+      {id: Math.random().toString(16), title: "js", isDone: true},
+      {id: Math.random().toString(16), title: "jsx", isDone: false},
+      {id: Math.random().toString(16), title: "css", isDone: true},
     ]
-    acc[list.id] = tasks
     return acc
   }, {} as  TTaskState )
 )
-
-  // let [tasksObj, setTasks] = useState<TTaskState>({
-  //   [todoListsId1]: [
-  //     { id: Math.random().toString(16), title: "js", isDone: true },
-  //     { id: Math.random().toString(16), title: "jsx", isDone: false },
-  //     { id: Math.random().toString(16), title: "css", isDone: true },
-  //   ],
-
-  //   [todoListsId2]: [
-  //     { id: Math.random().toString(16), title: "js", isDone: true },
-  //     { id: Math.random().toString(16), title: "jsx", isDone: false },
-  //     { id: Math.random().toString(16), title: "css", isDone: true },
-  //   ],
-  // })
 
   function removeTask(todolistId: string, id: string) {
     const tasks = tasksObj[todolistId]
@@ -79,9 +97,8 @@ let [tasksObj, setTasks] = useState<TTaskState>(
     taskId: string,
     isDone: boolean
   ) {
-    const tasks = tasksObj[todolistId]
-    const task = tasks.find((t) => t.id === taskId)
-    if (task) {
+    const task = tasksObj[todolistId].find((t) => t.id === taskId)
+    if (task != null) {
       task.isDone = isDone
       setTasks({ ...tasksObj })
     }
@@ -92,9 +109,8 @@ let [tasksObj, setTasks] = useState<TTaskState>(
     newTitle: string,
     todolistId: string
   ) {
-    const tasks = tasksObj[todolistId]
-    const task = tasks.find((t) => t.id === taskId)
-    if (task) {
+    const task = tasksObj[todolistId].find((t) => t.id === taskId)
+    if (task != null) {
       task.title = newTitle
       setTasks({ ...tasksObj })
     }
@@ -102,7 +118,7 @@ let [tasksObj, setTasks] = useState<TTaskState>(
 
   function changeFilter(todolistId: string, value: TFilterValues) {
     const todolist = todoLists.find((tl) => tl.id === todolistId)
-    if (todolist) {
+    if (todolist != null) {
       todolist.filter = value
       setTodolists([...todoLists])
     }
@@ -125,19 +141,19 @@ let [tasksObj, setTasks] = useState<TTaskState>(
   return (
     <div className="App">
       <AddItemForm onAddItem={addTodoList} />
+      {/*Старайся делать так  {todoList.map(tl => <Component....)}*/}
       {todoLists.map((tl) => {
-        let tasksForlist = tasksObj[tl.id]
-        if (tl.filter === "completed") {
-          tasksForlist = tasksForlist.filter((t) => t.isDone === true)
-        }
-        if (tl.filter === "active") {
-          tasksForlist = tasksForlist.filter((t) => t.isDone === false)
-        }
+        let tasksForlist = tasksObj[tl.id];
+        if (tl.filter === "completed") tasksForlist = tasksForlist.filter((t) => t.isDone);
+        if (tl.filter === "active") tasksForlist = tasksForlist.filter((t) => !t.isDone);
+
 
         return (
           <Paper elevation={24} variant="outlined">
+            {/*избавься от todolist*/}
             <Todolist
               {...tl}
+              key={tl.id}
               tasks={tasksForlist}
               changeFilter={changeFilter}
               onChangeTaskStatus={changeTaskStatus}
