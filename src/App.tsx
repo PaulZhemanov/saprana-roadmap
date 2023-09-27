@@ -1,11 +1,9 @@
 import {useState} from "react"
 import "./App.css"
-import Todolist, {TTask} from "./components/Todolist"
 import AddItemForm from "./components/AddItemForm"
 import { Paper } from "@material-ui/core"
-import styled from "@emotion/styled"
-import SizedBox from "./components/SizeBox"
-
+import Todolist from "./components/Todolist"
+import { TTask } from "./components/Todolist"
 
 export type TFilterValues = "all" | "completed" | "active"
 
@@ -14,22 +12,7 @@ type TTodoList = {
   title: string
   filter: TFilterValues
 }
-const Root = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 52px 100px;
-  /* min-height: 100vh; */
-  /* background: #106c4e; */
-`
-const Body = styled.div`
-  display: flex;
 
-  justify-content: start;
-  padding: 10px;
-  /* flex: 1; */
-  /* box-sizing: border-box; */
-  /* background: #ba7412; */
-`
 
 type TTaskState = Record<string, Array<TTask>>
 
@@ -126,7 +109,7 @@ let [tasksObj, setTasks] = useState<TTaskState>(
   }
 
   return (
-    <Root>
+    <div className="App">
       <AddItemForm onAddItem={addTodoList} />
       {/*Старайся делать так  {todoList.map(tl => <Component....)}*/}
       {todoLists.map((tl) => {
@@ -136,7 +119,8 @@ let [tasksObj, setTasks] = useState<TTaskState>(
 
 
         return (
-          <Body>
+          <Paper elevation={24} variant="outlined">
+            {/*избавься от todolist*/}
             <Todolist
               {...tl}
               key={tl.id}
@@ -149,12 +133,10 @@ let [tasksObj, setTasks] = useState<TTaskState>(
               onRemoveTask={removeTask}
               onAddTask={addTask}
             />
-            {/* <SizedBox width={10} /> */}
-          </Body>
+          </Paper>
         )
       })}
-    </Root >
-     
+    </div>
   )
 }
 
