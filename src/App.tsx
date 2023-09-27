@@ -2,7 +2,10 @@ import {useState} from "react"
 import "./App.css"
 import Todolist, {TTask} from "./components/Todolist"
 import AddItemForm from "./components/AddItemForm"
-import {Paper} from "@material-ui/core"
+import { Paper } from "@material-ui/core"
+import styled from "@emotion/styled"
+import SizedBox from "./components/SizeBox"
+
 
 export type TFilterValues = "all" | "completed" | "active"
 
@@ -11,41 +14,22 @@ type TTodoList = {
   title: string
   filter: TFilterValues
 }
+const Root = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 52px 100px;
+  /* min-height: 100vh; */
+  /* background: #106c4e; */
+`
+const Body = styled.div`
+  display: flex;
 
-/*
-*
-store = {
-  todoLists: TTodoList[] = []
-}
-
-type TTodoList = {
-  id: string
-  title: string
-  filter: TFilterValues
-  tasks: Array<TTask>
-}
-*
-*
-*
-store = {
-  todoLists: TTodoList[] = [],
-  tasks: TTask = Array<TTask>
-}
-type TTotoList{
-  id: string
-  title: string
-  filter: TFilterValues
-}
-
-type TTask = {
-  id: string
-  title: string
-  isDone: boolean
-  todoListId: string
-}
-
-*
-* */
+  justify-content: start;
+  padding: 10px;
+  /* flex: 1; */
+  /* box-sizing: border-box; */
+  /* background: #ba7412; */
+`
 
 type TTaskState = Record<string, Array<TTask>>
 
@@ -53,6 +37,9 @@ const App = () => {
 
   let [todoLists, setTodolists] = useState<Array<TTodoList>>([
     { id: Math.random().toString(), title: "frontend", filter: "all" },
+    { id: Math.random().toString(), title: "backend", filter: "all" },
+    { id: Math.random().toString(), title: "backend", filter: "all" },
+    { id: Math.random().toString(), title: "backend", filter: "all" },
     { id: Math.random().toString(), title: "backend", filter: "all" },
   ])
 
@@ -139,7 +126,7 @@ let [tasksObj, setTasks] = useState<TTaskState>(
   }
 
   return (
-    <div className="App">
+    <Root>
       <AddItemForm onAddItem={addTodoList} />
       {/*Старайся делать так  {todoList.map(tl => <Component....)}*/}
       {todoLists.map((tl) => {
@@ -149,8 +136,7 @@ let [tasksObj, setTasks] = useState<TTaskState>(
 
 
         return (
-          <Paper elevation={24} variant="outlined">
-            {/*избавься от todolist*/}
+          <Body>
             <Todolist
               {...tl}
               key={tl.id}
@@ -163,10 +149,12 @@ let [tasksObj, setTasks] = useState<TTaskState>(
               onRemoveTask={removeTask}
               onAddTask={addTask}
             />
-          </Paper>
+            {/* <SizedBox width={10} /> */}
+          </Body>
         )
       })}
-    </div>
+    </Root >
+     
   )
 }
 
